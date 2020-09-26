@@ -1,8 +1,8 @@
 import requests
 from bs4 import BeautifulSoup
 
-loing_url = 'http://www.' #로그인 처리 페이지 주소 입력
-craw_url = 'http://www.' #마일리지값이 있는 페이지 주소 입력
+loing_url = 'http://namucoffee.com/.' #로그인 처리 페이지 주소 입력
+craw_url = 'http://namucoffee.com/' #마일리지값이 있는 페이지 주소 입력
 
 session = requests.session()
 

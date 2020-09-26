@@ -16,7 +16,7 @@ if req.ok:
 
 # <from> </form> tag find_all
 for form__tag in soup.find_all('form'):
-    # <form action='출력' method='출력'></form>
+    # <form action='출력'></form>
     print(form__tag.get('action').replace(url, ''));
 
     form__method = form__tag.get('method');
@@ -25,10 +25,10 @@ for form__tag in soup.find_all('form'):
     
     # <input> </input> tag find_all
     for input__tag in form__tag.find_all('input'):
-        # <input type='text, password 아니면 continue'></form>
+        # <input type='text, password 아니면 continue'></input>
         if (input__tag.get('type') != 'text') and (input__tag.get('type') != 'password'):
             continue;
-        # <input name='출력' title='출력' placeholder='출력'></form>
+        # <input name='출력' title='출력' placeholder='출력'></input>
         print(input__tag.get('name'),
               input__tag.get('title'),
               input__tag.get('placeholder'));
