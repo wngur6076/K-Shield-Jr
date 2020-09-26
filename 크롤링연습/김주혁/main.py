@@ -1,35 +1,42 @@
 from bs4 import BeautifulSoup
+from test import *
 import requests
 
+def get_form_list(url):
+    req = requests.get(url)
+     
+    if req.ok:
+        html = req.text
+        soup = BeautifulSoup(html,'html.parser')
 
-# url = input("url: ");
+    from_list = [];
+    # <from> </form> tag find_all
+    for form_tag in soup.find_all('form'):
+        # <input> </input> tag find_all
+        input_list = [];
+        for input_tag in form_tag.find_all('input'):
+            # <input type='submit' and disabled='disabled' continue'></input>
+            if (input_tag.get('type') == 'submit') or (input_tag.get('disabled') == 'disabled'):
+                continue;
+            input_list.append([input_tag.get('name'), input_tag.get('value')]);
 
-# Test url:
-# http://namucoffee.com/
-# https://sir.kr/
-url = 'http://namucoffee.com/'
-req = requests.get(url)
- 
-if req.ok:
-    html = req.text
-    soup = BeautifulSoup(html,'html.parser')
-
-# <from> </form> tag find_all
-for form__tag in soup.find_all('form'):
-    # <form action='출력'></form>
-    print(form__tag.get('action'));
-
-    form__method = form__tag.get('method');
-    # <form method='출력'> method 선택자를 지정하지 않으면 기본값 get임.
-    print(form__method == None and 'get' or form__method);
-    
-    # <input> </input> tag find_all
-    for input__tag in form__tag.find_all('input'):
-        # <input type='submit' 이면 continue'></input>
-        if (input__tag.get('type') == 'submit'):
-            continue;
-        # <input name='출력' title='출력' placeholder='출력'></input>
-        print(input__tag.get('name'),
-              input__tag.get('value'));
+        form_method = form_tag.get('method');
+        form_method == None and 'get' or form_method;
+        from_list.append(Form(form_tag.get('action'), form_method, dict(input_list)));
         
-    print('------------------------------------------------------------------------------');
+    return from_list;
+
+
+if __name__=="__main__":
+    # url = input("url: ");
+
+    # Test url:
+    # http://namucoffee.com/
+    # https://sir.kr/
+    url = 'http://namucoffee.com/'
+    form_list = get_form_list(url);
+
+    for form in form_list:
+        print(form.action);
+        print(form.method);
+        print(form.parameter);
